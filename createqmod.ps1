@@ -1,5 +1,6 @@
+
 Param(
-    [String] $qmodname="FullComboEffects",
+    [String] $qmodname="",
 
     [Parameter(Mandatory=$false)]
     [Switch] $clean,
@@ -30,7 +31,7 @@ if ($qmodName -eq "")
 
 if ($LASTEXITCODE -ne 0) {
     echo "Failed to build, exiting..."
-    exit $LASTEXITCODE
+    exit
 }
 
 echo "Creating qmod from mod.json"
@@ -42,11 +43,9 @@ $filelist = @($mod)
 
 $cover = "./" + $modJson.coverImage
 if ((-not ($cover -eq "./")) -and (Test-Path $cover))
-{
+{ 
     $filelist += ,$cover
 }
-
-$version = $modJson.version
 
 foreach ($mod in $modJson.modFiles)
 {
@@ -69,7 +68,7 @@ foreach ($lib in $modJson.libraryFiles)
 }
 
 $zip = $qmodName + ".zip"
-$qmod = $qmodName + "_v" + $version + ".qmod"
+$qmod = $qmodName + ".qmod"
 
 if ((-not ($clean.IsPresent)) -and (Test-Path $qmod))
 {
@@ -78,4 +77,5 @@ if ((-not ($clean.IsPresent)) -and (Test-Path $qmod))
 }
 
 Compress-Archive -Path $filelist -DestinationPath $zip -Update
+
 Move-Item $zip $qmod -Force
