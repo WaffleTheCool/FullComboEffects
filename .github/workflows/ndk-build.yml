@@ -1,9 +1,9 @@
 name: NDK build
 
 env:
-  module_id: DrinkWater
-  qmodName: DrinkWater
-  cache-name: DrinkWater_cache
+  module_id: FullComboEffects
+  qmodName: FullComboEffects
+  cache-name: FullComboEffects_cache
 
 on:
   push:
